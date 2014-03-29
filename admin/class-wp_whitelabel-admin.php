@@ -82,21 +82,24 @@ class WP_Whitelabel_Admin {
 		add_action( '@TODO', array( $this, 'action_method_name' ) );
 		add_filter( '@TODO', array( $this, 'filter_method_name' ) );
 
-		function whitelabel_yoast() {
-		   echo '<style type="text/css">
-		           body.toplevel_page_wpseo_dashboard .postbox-container #sidebar { display: none; }
-		           body.seo_page_wpseo_titles .postbox-container #sidebar { display: none; }
-		           body.seo_page_wpseo_social .postbox-container #sidebar { display: none; }
-		           body.seo_page_wpseo_xml .postbox-container #sidebar { display: none; }
-		           body.seo_page_wpseo_permalinks .postbox-container #sidebar { display: none; }
-		           body.seo_page_wpseo_internal-links .postbox-container #sidebar { display: none; }
-		           body.seo_page_wpseo_rss .postbox-container #sidebar { display: none; }
-		           body.seo_page_wpseo_import .postbox-container #sidebar { display: none; }
-		           body.seo_page_wpseo_files .postbox-container #sidebar { display: none; }
-		         </style>';
-		}
-		add_action('admin_head', 'whitelabel_yoast');
+		if(is_plugin_active('wordpress-seo/wp-seo.php')) {
 		
+			function whitelabel_yoast() {
+			   echo '<style type="text/css">
+			           body.toplevel_page_wpseo_dashboard #sidebar-container { display: none; }
+			           body.seo_page_wpseo_titles #sidebar-container { display: none; }
+			           body.seo_page_wpseo_social #sidebar-container { display: none; }
+			           body.seo_page_wpseo_xml #sidebar-container { display: none; }
+			           body.seo_page_wpseo_permalinks #sidebar-container { display: none; }
+			           body.seo_page_wpseo_internal-links #sidebar-container { display: none; }
+			           body.seo_page_wpseo_rss #sidebar-container { display: none; }
+			           body.seo_page_wpseo_import #sidebar-container { display: none; }
+			           body.seo_page_wpseo_files #sidebar-container { display: none; }
+			         </style>';
+			}
+			add_action('admin_head', 'whitelabel_yoast');
+		
+		}
 		
 		function remove_page_analysis_from_publish_box() { return false; }
 		add_filter('wpseo_use_page_analysis', 'remove_page_analysis_from_publish_box');
