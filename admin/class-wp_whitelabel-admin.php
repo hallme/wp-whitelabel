@@ -188,8 +188,8 @@ class WP_Whitelabel_Admin {
 		 *   For reference: http://codex.wordpress.org/Roles_and_Capabilities
 		 */
 		$this->plugin_screen_hook_suffix = add_options_page(
-			__( 'WP Whitelabel Settings', $this->plugin_slug ),
-			__( 'WP Whitelabel', $this->plugin_slug ),
+			__( 'Whitelabel Settings', $this->plugin_slug ),
+			__( 'Whitelabeling', $this->plugin_slug ),
 			'manage_options',
 			$this->plugin_slug,
 			array( $this, 'display_plugin_admin_page' )
