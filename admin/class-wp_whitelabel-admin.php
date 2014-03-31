@@ -74,8 +74,8 @@ class WP_Whitelabel_Admin {
 		add_filter( 'plugin_action_links_' . $plugin_basename, array( $this, 'add_action_links' ) );
 		
 		// Populate options page
-		add_action( 'admin_init', 'wp_whitelabel_settings_init' );
-
+		add_action( 'admin_init', array( $this, 'wp_whitelabel_settings_init' ) );
+		
 		/*
 		 * Define custom functionality.
 		 *
@@ -85,7 +85,7 @@ class WP_Whitelabel_Admin {
 		add_action( '@TODO', array( $this, 'action_method_name' ) );
 		add_filter( '@TODO', array( $this, 'filter_method_name' ) );
 
-		if(is_plugin_active('wordpress-seo/wp-seo.php')) {
+		if(get_option('wp_whitelabel_yoast_ads') && is_plugin_active('wordpress-seo/wp-seo.php')) {
 		
 			function whitelabel_yoast() {
 			   echo '<style type="text/css">
@@ -208,9 +208,9 @@ class WP_Whitelabel_Admin {
 	 */
 
 	public function wp_whitelabel_settings_init() {
-		register_setting( 'wp_whitelabel_settings', 'wp_whitelabel' );
-		add_settings_section( 'wp_whitelabel_general', 'Section One', 'wp_whitelabel_general_callback', 'wp_whitelabel' );
-		add_settings_field( 'yoast_ads', 'Remove Yoast Ads?', 'yoast_ads_callback', 'wp_whitelabel', 'wp_whitelabel_general' );
+		add_settings_section( 'wp_whitelabel_general', 'Section One', array( $this, 'wp_whitelabel_general_callback'), 'wp_whitelabel' );
+		add_settings_field( 'wp_whitelabel_yoast_ads', 'Remove Yoast Ads?', array( $this, 'yoast_ads_callback'), 'wp_whitelabel', 'wp_whitelabel_general' );
+		register_setting( 'wp_whitelabel', 'wp_whitelabel_yoast_ads' );
 	}
 	
 	public function wp_whitelabel_general_callback() {
@@ -218,8 +218,7 @@ class WP_Whitelabel_Admin {
 	}
 	
 	public function yoast_ads_callback() {
-	    $setting = esc_attr( get_option( 'yoast_ads' ) );
-	    echo "<input type='checkbox' name='my-setting' value='$setting' />";
+	    echo '<input name="wp_whitelabel_yoast_ads" type="checkbox" value="1" class="code" ' . checked( 1, get_option( 'wp_whitelabel_yoast_ads' ), false ) . ' /> Explanation text';
 	}
 
 	public function display_plugin_admin_page() {
