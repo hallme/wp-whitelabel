@@ -218,7 +218,7 @@ class WP_Whitelabel_Admin {
 	}
 	
 	public function yoast_ads_callback() {
-	    echo '<input name="wp_whitelabel_yoast_ads" type="checkbox" value="1" class="code" ' . checked( 1, get_option( 'wp_whitelabel_yoast_ads' ), false ) . ' /> Explanation text';
+	    echo '<input name="wp_whitelabel_yoast_ads" type="checkbox" value="1" class="code" ' . checked( 1, get_option( 'wp_whitelabel_yoast_ads' ), false ) . ' />';
 	}
 
 	public function display_plugin_admin_page() {
