@@ -72,6 +72,9 @@ class WP_Whitelabel_Admin {
 		// Add an action link pointing to the options page.
 		$plugin_basename = plugin_basename( plugin_dir_path( __DIR__ ) . $this->plugin_slug . '.php' );
 		add_filter( 'plugin_action_links_' . $plugin_basename, array( $this, 'add_action_links' ) );
+		
+		// Populate options page
+		add_action( 'admin_init', 'wp_whitelabel_settings_init' );
 
 		/*
 		 * Define custom functionality.
@@ -168,7 +171,6 @@ class WP_Whitelabel_Admin {
 		if ( $this->plugin_screen_hook_suffix == $screen->id ) {
 			wp_enqueue_script( $this->plugin_slug . '-admin-script', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery' ), WP_Whitelabel::VERSION );
 		}
-
 	}
 
 	/**
@@ -197,7 +199,6 @@ class WP_Whitelabel_Admin {
 			$this->plugin_slug,
 			array( $this, 'display_plugin_admin_page' )
 		);
-
 	}
 
 	/**
@@ -205,6 +206,22 @@ class WP_Whitelabel_Admin {
 	 *
 	 * @since    1.0.0
 	 */
+
+	public function wp_whitelabel_settings_init() {
+		register_setting( 'wp_whitelabel_settings', 'wp_whitelabel' );
+		add_settings_section( 'wp_whitelabel_general', 'Section One', 'wp_whitelabel_general_callback', 'wp_whitelabel' );
+		add_settings_field( 'yoast_ads', 'Remove Yoast Ads?', 'yoast_ads_callback', 'wp_whitelabel', 'wp_whitelabel_general' );
+	}
+	
+	public function wp_whitelabel_general_callback() {
+	    echo 'Some help text goes here.';
+	}
+	
+	public function yoast_ads_callback() {
+	    $setting = esc_attr( get_option( 'yoast_ads' ) );
+	    echo "<input type='checkbox' name='my-setting' value='$setting' />";
+	}
+
 	public function display_plugin_admin_page() {
 		include_once( 'views/admin.php' );
 	}
